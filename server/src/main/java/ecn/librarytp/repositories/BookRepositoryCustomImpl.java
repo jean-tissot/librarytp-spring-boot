@@ -1,23 +1,12 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.repositories;
 
-import java.util.Optional;
-
+import ecn.librarytp.items.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-import ecn.librarytp.items.Book;
+import java.util.Optional;
 
-/**
- *
- * @author ECN
- */
 @Repository
 public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 
@@ -47,10 +36,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         repository.save(item);
 
         Optional<Book> result = repository.findById(item.getBookId());
-        if (result.isPresent()) {
-            return result.get();
-        }
-        return null;
+        return result.orElse(null);
     }
 
     @Override

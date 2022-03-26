@@ -1,9 +1,3 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.repositories;
 
 import java.util.Date;
@@ -15,10 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import ecn.librarytp.items.Person;
 
-/**
- *
- * @author ECN
- */
 @Repository
 public class PersonRepositoryCustomImpl implements PersonRepositoryCustom {
 
@@ -54,10 +44,7 @@ public class PersonRepositoryCustomImpl implements PersonRepositoryCustom {
         repository.save(item);
 
         Optional<Person> result = repository.findById(item.getPersonId());
-        if (result.isPresent()) {
-            return result.get();
-        }
-        return null;
+        return result.orElse(null);
     }
 
     @Override

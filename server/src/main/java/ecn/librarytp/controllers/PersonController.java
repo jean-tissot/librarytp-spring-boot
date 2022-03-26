@@ -1,11 +1,15 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.controllers;
 
+import ecn.librarytp.items.Book;
+import ecn.librarytp.items.Person;
+import ecn.librarytp.repositories.BookRepository;
+import ecn.librarytp.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,23 +19,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import ecn.librarytp.items.Book;
-import ecn.librarytp.items.Person;
-import ecn.librarytp.repositories.BookRepository;
-import ecn.librarytp.repositories.PersonRepository;
-
-/**
- *
- * @author ECN
- */
 @Controller
 public class PersonController {
 
@@ -43,10 +30,6 @@ public class PersonController {
 
     /**
      * Get Date from string
-     *
-     * @param aDate
-     * @param format
-     * @return
      */
     private Date getDateFromString(String aDate, String format) {
         Date returnedValue = null;
@@ -64,7 +47,7 @@ public class PersonController {
         return returnedValue;
     }
 
-    @RequestMapping(value = "editUser.do", method = RequestMethod.POST)
+    @PostMapping(value = "editUser.do")
     public ModelAndView handlePostEditUser(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -75,7 +58,7 @@ public class PersonController {
         if (id > 0) {
             Person person = myPersonRepository.getById(id);
             List<Book> myList = myBookRepository.findAll();
-            
+
             returned = new ModelAndView("user");
             returned.addObject("user", person);
             returned.addObject("booksList", myList);
@@ -90,9 +73,6 @@ public class PersonController {
 
     /**
      * Get int from String
-     *
-     * @param value
-     * @return
      */
     private int getIntFromString(String value) {
         int intValue = -1;
@@ -104,7 +84,7 @@ public class PersonController {
         return intValue;
     }
 
-    @RequestMapping(value = "saveUser.do", method = RequestMethod.POST)
+    @PostMapping(value = "saveUser.do")
     public ModelAndView handlePostSaveUser(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -134,7 +114,7 @@ public class PersonController {
         return returned;
     }
 
-    @RequestMapping(value = "deleteUser.do", method = RequestMethod.POST)
+    @PostMapping(value = "deleteUser.do")
     public ModelAndView handlePostDeleteUser(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -149,7 +129,7 @@ public class PersonController {
         return returned;
     }
 
-    @RequestMapping(value = "createUser.do", method = RequestMethod.POST)
+    @PostMapping(value = "createUser.do")
     public ModelAndView handlePostCreateUser() {
         ModelAndView returned;
 
@@ -160,7 +140,7 @@ public class PersonController {
         return returned;
     }
 
-    @RequestMapping(value = "switchUsers.do", method = RequestMethod.POST)
+    @PostMapping(value = "switchUsers.do")
     public ModelAndView handlePost(MyUser user) {
         ModelAndView returned;
 

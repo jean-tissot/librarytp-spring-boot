@@ -1,41 +1,32 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.items;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-/**
- *
- * @author kwyhr
- */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "book")
-@NamedQueries({
-    @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
-    @NamedQuery(name = "Book.findByBookId", query = "SELECT b FROM Book b WHERE b.bookId = :bookId"),
-    @NamedQuery(name = "Book.findByBookTitle", query = "SELECT b FROM Book b WHERE b.bookTitle = :bookTitle"),
-    @NamedQuery(name = "Book.findByBookAuthors", query = "SELECT b FROM Book b WHERE b.bookAuthors = :bookAuthors")})
+@NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b")
+@NamedQuery(name = "Book.findByBookId", query = "SELECT b FROM Book b WHERE b.bookId = :bookId")
+@NamedQuery(name = "Book.findByBookTitle", query = "SELECT b FROM Book b WHERE b.bookTitle = :bookTitle")
+@NamedQuery(name = "Book.findByBookAuthors", query = "SELECT b FROM Book b WHERE b.bookAuthors = :bookAuthors")
 public class Book implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -52,10 +43,8 @@ public class Book implements Serializable {
     @Column(name = "book_authors")
     private String bookAuthors;
     @OneToMany(mappedBy = "bookId")
+    @ToString.Exclude
     private Collection<Borrow> borrowCollection;
-
-    public Book() {
-    }
 
     public Book(Integer bookId) {
         this.bookId = bookId;
@@ -67,61 +56,19 @@ public class Book implements Serializable {
         this.bookAuthors = bookAuthors;
     }
 
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-
-    public String getBookAuthors() {
-        return bookAuthors;
-    }
-
-    public void setBookAuthors(String bookAuthors) {
-        this.bookAuthors = bookAuthors;
-    }
-
-    public Collection<Borrow> getBorrowCollection() {
-        return borrowCollection;
-    }
-
-    public void setBorrowCollection(Collection<Borrow> borrowCollection) {
-        this.borrowCollection = borrowCollection;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (bookId != null ? bookId.hashCode() : 0);
-        return hash;
+        return (bookId != null ? bookId.hashCode() : 0);
     }
 
+    /**
+     * TODO: compare fields when ids are null
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Book)) {
+        if (!(object instanceof Book other)) {
             return false;
         }
-        Book other = (Book) object;
-        if ((this.bookId == null && other.bookId != null) || (this.bookId != null && !this.bookId.equals(other.bookId))) {
-            return false;
-        }
-        return true;
+        return (this.bookId != null || other.bookId == null) && (this.bookId == null || this.bookId.equals(other.bookId));
     }
-
-    @Override
-    public String toString() {
-        return "ecn.librarytp.items.Book[ bookId=" + bookId + " ]";
-    }
-    
 }

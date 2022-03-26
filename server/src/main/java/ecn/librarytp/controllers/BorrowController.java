@@ -1,25 +1,4 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.controllers;
-
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import ecn.librarytp.items.Book;
 import ecn.librarytp.items.Borrow;
@@ -27,11 +6,19 @@ import ecn.librarytp.items.Person;
 import ecn.librarytp.repositories.BookRepository;
 import ecn.librarytp.repositories.BorrowRepository;
 import ecn.librarytp.repositories.PersonRepository;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-/**
- *
- * @author ECN
- */
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Controller
 public class BorrowController {
 
@@ -48,9 +35,6 @@ public class BorrowController {
 
     /**
      * Get int from String
-     *
-     * @param value
-     * @return
      */
     private int getIntFromString(String value) {
         int intValue = -1;
@@ -62,7 +46,7 @@ public class BorrowController {
         return intValue;
     }
 
-    @RequestMapping(value = "returnBorrow.do", method = RequestMethod.POST)
+    @PostMapping(value = "returnBorrow.do")
     public ModelAndView handleReturn(HttpServletRequest request) {
         ModelAndView returned = new ModelAndView("ajax");
         JSONObject returnedObject = new JSONObject();
@@ -80,7 +64,7 @@ public class BorrowController {
         return returned;
     }
 
-    @RequestMapping(value = "addBorrow.do", method = RequestMethod.POST)
+    @PostMapping(value = "addBorrow.do")
     public ModelAndView handleAddBorrow(HttpServletRequest request) {
 
         String userStr = request.getParameter("userID");
@@ -91,11 +75,11 @@ public class BorrowController {
         int bookID = getIntFromString(bookStr);
         Book book = bookRepository.getById(bookID);
 
-        Borrow borrow = myBorrowRepository.create(user, book);
+        myBorrowRepository.create(user, book);
         // Refresh data
         user = personRepository.getById(userID);
-        book = bookRepository.getById(bookID);
-        
+        bookRepository.getById(bookID);
+
         List<Book> myList = bookRepository.findAll();
 
         ModelAndView returned = new ModelAndView("user");

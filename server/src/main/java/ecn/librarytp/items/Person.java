@@ -1,45 +1,31 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.items;
 
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-/**
- *
- * @author kwyhr
- */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "person")
-@NamedQueries({
-    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
-    @NamedQuery(name = "Person.findByPersonId", query = "SELECT p FROM Person p WHERE p.personId = :personId"),
-    @NamedQuery(name = "Person.findByPersonFirstname", query = "SELECT p FROM Person p WHERE p.personFirstname = :personFirstname"),
-    @NamedQuery(name = "Person.findByPersonLastname", query = "SELECT p FROM Person p WHERE p.personLastname = :personLastname"),
-    @NamedQuery(name = "Person.findByPersonBirthdate", query = "SELECT p FROM Person p WHERE p.personBirthdate = :personBirthdate")})
+@NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p")
+@NamedQuery(name = "Person.findByPersonId", query = "SELECT p FROM Person p WHERE p.personId = :personId")
+@NamedQuery(name = "Person.findByPersonFirstname", query = "SELECT p FROM Person p WHERE p.personFirstname = :personFirstname")
+@NamedQuery(name = "Person.findByPersonLastname", query = "SELECT p FROM Person p WHERE p.personLastname = :personLastname")
+@NamedQuery(name = "Person.findByPersonBirthdate", query = "SELECT p FROM Person p WHERE p.personBirthdate = :personBirthdate")
 public class Person implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -59,10 +45,8 @@ public class Person implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date personBirthdate;
     @OneToMany(mappedBy = "personId")
+    @ToString.Exclude
     private Collection<Borrow> borrowCollection;
-
-    public Person() {
-    }
 
     public Person(Integer personId) {
         this.personId = personId;
@@ -74,69 +58,20 @@ public class Person implements Serializable {
         this.personLastname = personLastname;
     }
 
-    public Integer getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
-
-    public String getPersonFirstname() {
-        return personFirstname;
-    }
-
-    public void setPersonFirstname(String personFirstname) {
-        this.personFirstname = personFirstname;
-    }
-
-    public String getPersonLastname() {
-        return personLastname;
-    }
-
-    public void setPersonLastname(String personLastname) {
-        this.personLastname = personLastname;
-    }
-
-    public Date getPersonBirthdate() {
-        return personBirthdate;
-    }
-
-    public void setPersonBirthdate(Date personBirthdate) {
-        this.personBirthdate = personBirthdate;
-    }
-
-    public Collection<Borrow> getBorrowCollection() {
-        return borrowCollection;
-    }
-
-    public void setBorrowCollection(Collection<Borrow> borrowCollection) {
-        this.borrowCollection = borrowCollection;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (personId != null ? personId.hashCode() : 0);
-        return hash;
+        return (personId != null ? personId.hashCode() : 0);
     }
 
+    /**
+     * TODO: compare fields when ids are null
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Person)) {
+        if (!(object instanceof Person other)) {
             return false;
         }
-        Person other = (Person) object;
-        if ((this.personId == null && other.personId != null) || (this.personId != null && !this.personId.equals(other.personId))) {
-            return false;
-        }
-        return true;
+        return (this.personId != null || other.personId == null) && (this.personId == null || this.personId.equals(other.personId));
     }
 
-    @Override
-    public String toString() {
-        return "ecn.librarytp.items.Person[ personId=" + personId + " ]";
-    }
-    
 }

@@ -1,68 +1,42 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.repositories;
-
-import java.util.Date;
 
 import ecn.librarytp.items.Book;
 import ecn.librarytp.items.Borrow;
 import ecn.librarytp.items.Person;
 
-/**
- *
- * @author ECN
- */
+import java.util.Date;
+
 public interface BorrowRepositoryCustom {
 
     /**
-     * Create new borrow
-     * @param user
-     * @param book
-     * @return  
+     * Create a new borrow
      */
-    public Borrow create(Person user, Book book);
+    Borrow create(Person user, Book book);
 
     /**
-     * Create new borrow
-     * @param userId
-     * @param bookId
-     * @return  
+     * Create a new borrow
      */
-    public Borrow create(int userId, int bookId);
+    Borrow create(int userId, int bookId);
 
     /**
-     * Create new borrow
-     * @param user
-     * @param book
-     * @return  
+     * Create a new borrow
      */
-    public Borrow create(Person user, Book book, Date date);
+    Borrow create(Person user, Book book, Date date);
 
     /**
-     * Borrower returns book
-     * @param borrow
-     * @param date
-     * @return  
+     * Borrower returns the book
      */
-    public Borrow returnBook(Borrow borrow, Date date);
+    Borrow returnBook(Borrow borrow, Date date);
 
     /**
-     * Borrower returns book
-     * @param borrow
-     * @return  
+     * Borrower returns the book
      */
-    public Borrow returnBook(Borrow borrow);
-     
+    Borrow returnBook(Borrow borrow);
+
     /**
-     * Borrower returns book
-     * @param borrowId
-     * @return  
+     * Borrower returns the book
      */
-    public Borrow returnBook(int borrowId);
-     
+    Borrow returnBook(int borrowId);
+
 }
 

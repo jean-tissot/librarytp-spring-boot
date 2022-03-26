@@ -1,38 +1,25 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.controllers;
 
+import ecn.librarytp.items.Book;
+import ecn.librarytp.repositories.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import ecn.librarytp.items.Book;
-import ecn.librarytp.repositories.BookRepository;
-
-/**
- *
- * @author ECN
- */
 @Controller
 public class BookController {
 
     @Autowired
     private BookRepository myBookRepository;
 
-    @RequestMapping(value = "editBook.do", method = RequestMethod.POST)
+    @PostMapping(value = "editBook.do")
     public ModelAndView handlePostEditBook(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -56,9 +43,6 @@ public class BookController {
 
     /**
      * Get int from String
-     *
-     * @param value
-     * @return
      */
     private int getIntFromString(String value) {
         int intValue = -1;
@@ -70,7 +54,7 @@ public class BookController {
         return intValue;
     }
 
-    @RequestMapping(value = "saveBook.do", method = RequestMethod.POST)
+    @PostMapping(value = "saveBook.do")
     public ModelAndView handlePostSaveBook(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -98,7 +82,7 @@ public class BookController {
         return returned;
     }
 
-    @RequestMapping(value = "deleteBook.do", method = RequestMethod.POST)
+    @PostMapping(value = "deleteBook.do")
     public ModelAndView handlePostDeleteBook(HttpServletRequest request) {
         ModelAndView returned;
 
@@ -106,7 +90,7 @@ public class BookController {
         String idStr = request.getParameter("id");
         int id = getIntFromString(idStr);
         myBookRepository.delete(id);
-        
+
         // Remove book
         returned = new ModelAndView("books");
         List<Book> myList = myBookRepository.findAll();
@@ -115,7 +99,7 @@ public class BookController {
         return returned;
     }
 
-    @RequestMapping(value = "createBook.do", method = RequestMethod.POST)
+    @PostMapping(value = "createBook.do")
     public ModelAndView handlePostCreateBook() {
         ModelAndView returned;
 
@@ -127,7 +111,7 @@ public class BookController {
         return returned;
     }
 
-    @RequestMapping(value = "switchBooks.do", method = RequestMethod.POST)
+    @PostMapping(value = "switchBooks.do")
     public ModelAndView handlePost(MyUser user) {
         ModelAndView returned;
 

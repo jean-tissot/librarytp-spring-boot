@@ -1,9 +1,3 @@
-/* -----------------------------------------
- * TP PRWEB - Spring
- *
- * Ecole Centrale Nantes
- * Jean-Yves MARTIN, Jean-Marie NORMAND
- * ----------------------------------------- */
 package ecn.librarytp.repositories;
 
 import java.util.Calendar;
@@ -18,10 +12,6 @@ import ecn.librarytp.items.Book;
 import ecn.librarytp.items.Borrow;
 import ecn.librarytp.items.Person;
 
-/**
- *
- * @author ECN
- */
 @Repository
 public class BorrowRepositoryCustomImpl implements BorrowRepositoryCustom {
 
