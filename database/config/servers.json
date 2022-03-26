@@ -5,7 +5,7 @@
             "Group": "Servers",
             "Port": 5432,
             "Username": "postgres",
-            "Host": "tp-library-db",
+            "Host": "tp-library-spring-db",
             "PassFile": "/pgadmin4/pgpass.conf",
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"

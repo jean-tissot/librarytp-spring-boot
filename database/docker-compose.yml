@@ -1,6 +1,7 @@
 version: "3"
 
 services:
+
   postgres:
     image: postgres
     container_name: "tp-library-spring-db"
@@ -12,7 +13,8 @@ services:
     ports:
       - 5432:5432
     networks:
-      - postgres
+      - postgres-network
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: "tp-library-spring-pgadmin"
@@ -30,7 +32,8 @@ services:
     depends_on:
       - postgres
     networks:
-      - postgres
+      - postgres-network
+
 networks:
-  postgres:
-    name: postgres
+  postgres-network:
+    name: tp-library-spring-network
